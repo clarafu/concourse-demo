@@ -1,0 +1,15 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source: {repository: golang}
+
+inputs:
+- name: app
+
+outputs:
+- name: built-app
+
+run:
+  path: app/ci/tasks/scripts/build-app
