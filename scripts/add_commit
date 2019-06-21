@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -ex
+
+cd $(dirname $0)/..
+
+num=$(($( cat commit.txt) + 1))
+echo $num > commit.txt
+
+git config user.email "dummy@example.com"
+git config user.name "Dummy User"
+git add commit.txt
+git ci -m "increment commit to $num"
+
+ssh-agent bash -c 'ssh-add scripts/app_private_key; git push origin master'

@@ -10,7 +10,7 @@ func TestCalculate(t *testing.T) {
 		t.Error("Converting to message failed")
 	}
 
-	if message != "This is commit number 1" {
+	if message != "This app is using commit number 1.\n" {
 		t.Error("Did not match expected message")
 	}
 

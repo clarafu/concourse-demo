@@ -1,0 +1,81 @@
+---
+resource_types:
+- name: semver
+  type: registry-image
+  source:
+    repository: concourse/semver-resource
+
+resources:
+- name: app
+  type: git
+  source:
+    uri: git@github.com:clarafu/concourse-demo.git
+    branch: master
+    private_key: ((app-repo-key))
+
+- name: version
+  type: semver
+  source:
+    driver: git
+    uri: git@github.com:clarafu/concourse-demo.git
+    branch: version
+    file: version
+    private_key: ((app-repo-key))
+
+- name: app-pre-release
+  type: github-release
+  source:
+    owner: clarafu
+    repository: concourse-demo
+    access_token: ((dummy-user-access-token))
+    pre-release: true
+
+- name: app-release
+  type: github-release
+  source:
+    owner: clarafu
+    repository: concourse-demo
+    access_token: ((dummy-user-access-token))
+
+jobs:
+- name: test
+  plan:
+  - get: app
+    trigger: true
+  - task: test-app
+    file: app/ci/tasks/test-app.yml
+
+- name: bump-version
+  plan:
+  - put: version
+    params: {bump: major}
+
+- name: build
+  plan:
+  - get: version
+    passed: [bump-version]
+  - get: app
+    passed: [test]
+    trigger: true
+  - task:
+    file: app/ci/tasks/build-app.yml
+  - put: app-pre-release
+    params:
+      name: version/version
+      tag: version/version
+      globs:
+      - built-app/app
+
+- name: deploy
+  plan:
+  - get: version
+    passed: [build]
+  - get: app-pre-release
+    passed: [build]
+  - put: app-release
+    params:
+      name: version/version
+      tag: version/version
+      globs:
+      - app-pre-release/app
+

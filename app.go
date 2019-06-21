@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -14,7 +15,8 @@ func main() {
 		return
 	}
 
-	message, err := ConvertToMessage(string(file))
+	commitNum := strings.TrimSuffix(string(file), "\n")
+	message, err := ConvertToMessage(commitNum)
 	if err != nil {
 		log.Fatal(err)
 		return
@@ -29,5 +31,5 @@ func ConvertToMessage(commit string) (string, error) {
 		return "", err
 	}
 
-	return fmt.Sprintf("This is commit number %d", commitNumber), nil
+	return fmt.Sprintf("This app is using commit number %d.\n", commitNumber), nil
 }
