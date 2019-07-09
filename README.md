@@ -4,7 +4,7 @@ A dummy repository that is used for a basic Concourse pipeline demo.
 
 This repository contains a go app that reads from a file named "commit.txt" and prints out a message that wraps the contents of the commit file. There is also a version file that is used by semver resource from the demo pipeline.
 
-## Demo steps
+### Demo steps
 
 The pipeline exists at https://ci.concourse-ci.org/teams/main/pipelines/oscon-demo, where we can first explain what a Concourse pipeline looks like. Topics I would suggest to go over is:
 
