@@ -12,6 +12,8 @@ resources:
     uri: git@github.com:clarafu/concourse-demo.git
     branch: master
     private_key: ((app-repo-key))
+  icon: github-circle
+  public: true
 
 - name: version
   type: semver
@@ -21,6 +23,8 @@ resources:
     branch: version
     file: version
     private_key: ((app-repo-key))
+  icon: tag
+  public: true
 
 - name: app-pre-release
   type: github-release
@@ -28,7 +32,10 @@ resources:
     owner: clarafu
     repository: concourse-demo
     access_token: ((dummy-user-access-token))
-    pre-release: true
+    pre_release: true
+    release: false
+  public: true
+  icon: github-circle
 
 - name: app-release
   type: github-release
@@ -36,9 +43,12 @@ resources:
     owner: clarafu
     repository: concourse-demo
     access_token: ((dummy-user-access-token))
+  public: true
+  icon: github-circle
 
 jobs:
 - name: test
+  public: true
   plan:
   - get: app
     trigger: true
@@ -46,18 +56,19 @@ jobs:
     file: app/ci/tasks/test-app.yml
 
 - name: bump-version
+  public: true
   plan:
   - put: version
     params: {bump: major}
 
 - name: build
+  public: true
   plan:
   - get: version
-    passed: [bump-version]
   - get: app
     passed: [test]
     trigger: true
-  - task:
+  - task: build-app
     file: app/ci/tasks/build-app.yml
   - put: app-pre-release
     params:
@@ -66,7 +77,8 @@ jobs:
       globs:
       - built-app/app
 
-- name: deploy
+- name: publish
+  public: true
   plan:
   - get: version
     passed: [build]
