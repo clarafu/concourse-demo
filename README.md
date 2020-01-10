@@ -6,7 +6,7 @@ This repository contains a go app that reads from a file named "commit.txt" and 
 
 ### Demo steps
 
-The pipeline exists at https://ci.concourse-ci.org/teams/main/pipelines/oscon-demo, where we can first explain what a Concourse pipeline looks like. Topics I would suggest to go over is:
+The pipeline exists at https://ci.concourse-ci.org/teams/main/pipelines/demo-pipeline, where we can first explain what a Concourse pipeline looks like. Topics I would suggest to go over is:
 
 - Jobs (shown from the 4 green boxes: bump-version, test, build and deploy)
 - Resources (black boxes: app, version and app-release)
