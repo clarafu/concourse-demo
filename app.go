@@ -1,10 +1,10 @@
-package demo
+package main
 
 import (
+	"demo/message"
 	"fmt"
 	"io/ioutil"
 	"log"
-	"strconv"
 	"strings"
 )
 
@@ -16,20 +16,11 @@ func main() {
 	}
 
 	commitNum := strings.TrimSuffix(string(file), "\n")
-	message, err := ConvertToMessage(commitNum)
+	message, err := message.Convert(commitNum)
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
 
 	fmt.Printf(message)
-}
-
-func ConvertToMessage(commit string) (string, error) {
-	commitNumber, err := strconv.Atoi(commit)
-	if err != nil {
-		return "", err
-	}
-
-	return fmt.Sprintf("This app is using commit number %d.\n", commitNumber), nil
 }
