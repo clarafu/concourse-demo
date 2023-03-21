@@ -1,11 +1,12 @@
-package main
+package demo_test
 
 import (
+	"demo"
 	"testing"
 )
 
 func TestCalculate(t *testing.T) {
-	message, err := ConvertToMessage("1")
+	message, err := demo.ConvertToMessage("1")
 	if err != nil {
 		t.Error("Converting to message failed")
 	}
@@ -14,7 +15,7 @@ func TestCalculate(t *testing.T) {
 		t.Error("Did not match expected message")
 	}
 
-	message, err = ConvertToMessage("a")
+	message, err = demo.ConvertToMessage("a")
 	if err == nil {
 		t.Error("Should not be able to convert letter to a number")
 	}

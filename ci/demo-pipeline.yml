@@ -12,7 +12,7 @@ resources:
     uri: git@github.com:clarafu/concourse-demo.git
     branch: master
     private_key: ((app-repo-key))
-  icon: github-circle
+  icon: github
   public: true
 
 - name: version
@@ -35,7 +35,7 @@ resources:
     pre_release: true
     release: false
   public: true
-  icon: github-circle
+  icon: ferry
 
 - name: app-release
   type: github-release
@@ -44,7 +44,7 @@ resources:
     repository: concourse-demo
     access_token: ((dummy-user-access-token))
   public: true
-  icon: github-circle
+  icon: ferry
 
 jobs:
 - name: test
